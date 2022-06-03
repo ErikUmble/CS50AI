@@ -1,0 +1,31 @@
+First, I tried a very simple model, with just two convolutional layers,
+a max pooling, and a final dense layer. This finished training with very 
+bad performance: 0.0587 accuracy.
+
+Next, I increased the the number of kernels used in the first two conv layers,
+added several more conv layers, added another max pooling layer,
+and added 0.7 dropout to help against overfitting. Performance dropped,
+especially on the test set, so I know that I made a change for the worse.
+
+I realized a problem: I was using dropout after my last conv layer at a rate 
+much higher than I expected (I thought the dropout rate was the amount kept).
+I added another dropout layer earlier on in the model, and set them both to
+0.3. 
+
+Next, I changed some of the arguments to the Conv2D layers, increasing kernel
+size and number. I added another dense layer. Furthermore, I normalized the images.
+This increased the accuracy dramatically. From less than 10% to 94.7% (test accuracy).
+
+I then tried restructuring the model and adding batch normalization. By restructuring,
+I mean that whereas previously, I had the number of kernels in the Conv layers decrease throughout the model,
+now I tried having 10 in the first, and increasing to 30 for the last two.
+This drastically sped up training time and the accuracy increased at a faster rate.
+(I'm guessing those benefits are primarily from the batch normalization, but I would have to 
+try several adjustments to know for sure). The test accuracy this time was 96.7 &.
+Edit: looking at the model summary and saved model, the smaller size and number of parameters probably 
+influenced the faster train time.
+
+I re-trained after a small tweak: increasing the number of kernels in the last convolutional layer,
+increasing the number of units in the following dense layer, and increasing the following dropout to 0.5 (from 0.3)
+The accuracy increased even faster this time, with test accuracy 98.8% after 10 epochs.
+I think this is a pretty good result, so I will submit it as it is now. 
